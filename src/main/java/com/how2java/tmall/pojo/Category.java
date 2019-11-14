@@ -18,7 +18,6 @@ public class Category {
     }
 
     public void setName(String name) {
-        // trim方法用于删除字符串的头尾空白符
         this.name = name == null ? null : name.trim();
     }
 }
