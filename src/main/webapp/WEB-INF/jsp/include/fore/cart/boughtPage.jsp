@@ -7,6 +7,9 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script>
     var deleteOrder = false;
@@ -47,9 +50,10 @@
                     function(result){
                         if("success"==result){
                             $("table.orderListItemTable[oid="+deleteOrderid+"]").hide();
+                            // $("table.orderListItemTable[oid="+deleteOrderid+"]").attr("yin", true);
                         }
                         else{
-                            location.href="login.jsp";
+                            location.href="loginPage";
                         }
                     }
                 );
@@ -80,7 +84,7 @@
         <div><a  orderStatus="waitDelivery" href="#nowhere">待发货</a></div>
         <div><a  orderStatus="waitConfirm" href="#nowhere">待收货</a></div>
         <div><a  orderStatus="waitReview" href="#nowhere" class="noRightborder">待评价</a></div>
-        <div class="orderTypeLastOne"><a class="noRightborder"> </a></div>
+        <div class="orderTypeLastOne"><a class="noRightborder">&nbsp;</a></div>
     </div>
     <div style="clear:both"></div>
     <div class="orderListTitle">
@@ -103,7 +107,7 @@
                     <td colspan="2">
                         <b><fmt:formatDate value="${o.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></b>
                         <span>订单号: ${o.orderCode}
-                    </span>
+					</span>
                     </td>
                     <td  colspan="2"><img width="13px" src="img/site/orderItemTmall.png">天猫商场</td>
                     <td colspan="1">
@@ -137,6 +141,7 @@
                             <div class="orderListItemProductOriginalPrice">￥<fmt:formatNumber type="number" value="${oi.product.originalPrice}" minFractionDigits="2"/></div>
                             <div class="orderListItemProductPrice">￥<fmt:formatNumber type="number" value="${oi.product.promotePrice}" minFractionDigits="2"/></div>
 
+
                         </td>
                         <c:if test="${st.count==1}">
 
@@ -154,14 +159,14 @@
                                     </a>
                                 </c:if>
                                 <c:if test="${o.status=='waitPay' }">
-                                    <a href="alipay.jsp?oid=${o.id}&total=${o.total}">
+                                    <a href="forealipay?oid=${o.id}&total=${o.total}">
                                         <button class="orderListItemConfirm">付款</button>
                                     </a>
                                 </c:if>
 
                                 <c:if test="${o.status=='waitDelivery' }">
                                     <span>待发货</span>
-                                    <%--                                     <button class="btn btn-info btn-sm ask2delivery" link="admin_order_delivery?id=${o.id}">催卖家发货</button> --%>
+                                    <%-- 									<button class="btn btn-info btn-sm ask2delivery" link="admin_order_delivery?id=${o.id}">催卖家发货</button> --%>
 
                                 </c:if>
 
