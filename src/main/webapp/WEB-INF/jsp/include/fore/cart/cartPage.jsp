@@ -33,6 +33,7 @@
                     function(result){
                         if("success"==result){
                             $("tr.cartProductItemTR[oiid="+deleteOrderItemid+"]").hide();
+                            location.reload(true)
                         }
                         else{
                             location.href="loginPage";
@@ -202,7 +203,7 @@
             {"pid":pid,"number":num},
             function(result){
                 if("success"!=result){
-                    location.href="login.jsp";
+                    location.href="loginPage";
                 }
             }
         );

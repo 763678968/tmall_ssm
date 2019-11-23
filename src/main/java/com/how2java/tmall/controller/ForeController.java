@@ -7,6 +7,7 @@ import com.how2java.tmall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -240,5 +241,33 @@ public class ForeController {
         List<OrderItem> ois = orderItemService.listByUser(user.getId());
         model.addAttribute("ois", ois);
         return "fore/cart";
+    }
+
+    @RequestMapping("forechangeOrderItem")
+    @ResponseBody
+    public String changeOrderItem(Model model, HttpSession session, int pid, int number) {
+        User user = (User) session.getAttribute("user");
+        if (null == user)
+            return "fail";
+
+        List<OrderItem> ois = orderItemService.listByUser(user.getId());
+        for (OrderItem oi : ois) {
+            if (oi.getProduct().getId().intValue() == pid) {
+                oi.setNumber(number);
+                orderItemService.update(oi);
+                break;
+            }
+        }
+        return "success";
+    }
+
+    @RequestMapping("foredeleteOrderItem")
+    @ResponseBody
+    public String deleteOrderItem(Model model, HttpSession session, int oiid) {
+        User user = (User) session.getAttribute("user");
+        if (null == user)
+            return "fail";
+        orderItemService.delete(oiid);
+        return "success";
     }
 }
